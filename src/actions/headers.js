@@ -7,10 +7,13 @@ export function updateHeaders(headers = {}) {
   return (dispatch, getState) => {
     const { cookieOptions } = getSettings(getState());
 
-    Cookies.set(cookieOptions.key, JSON.stringify(headers), {
-      expires: cookieOptions.expires,
-      path: cookieOptions.path
-    });
+    if (Object.keys(headers).length === 0 ||
+      (headers['access-token'] != null && headers['access-token'] !== '')) {
+      Cookies.set(cookieOptions.key, JSON.stringify(headers), {
+        expires: cookieOptions.expires,
+        path: cookieOptions.path
+      });
+    }
 
     return dispatch({ type: UPDATE_HEADERS, headers });
   };
